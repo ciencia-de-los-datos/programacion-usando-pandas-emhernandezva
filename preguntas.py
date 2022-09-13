@@ -248,7 +248,7 @@ def pregunta_13():
     return tabla
 
 if __name__=='__main__':
-
+    None
     #print(pregunta_01())
     #print(pregunta_11())
     #print(pregunta_12())
