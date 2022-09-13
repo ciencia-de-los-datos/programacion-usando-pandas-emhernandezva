@@ -174,7 +174,7 @@ def pregunta_10():
     tabla.sort_values(['_c1','_c2'],ascending = [True,True], inplace = True)
     tabla['_c2'] = tabla.groupby(by=['_c1'])['_c2'].transform(lambda x: ':'.join(x))
     tabla.drop_duplicates(inplace = True)
-    tabla.reset_index(inplace = True,drop = True)
+    tabla.set_index('_c1', inplace=True)
     return tabla
 
 
@@ -245,11 +245,7 @@ def pregunta_13():
     tabla = tbl0.merge(tbl2,left_on='_c0',right_on='_c0',how='left')
     tabla = tabla[['_c1','_c5b']]
     tabla = tabla.groupby(by=['_c1']).sum()
-    return tabla
+    return tabla.squeeze()
 
 if __name__=='__main__':
     None
-    #print(pregunta_01())
-    #print(pregunta_11())
-    #print(pregunta_12())
-    #print(pregunta_13())
