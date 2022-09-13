@@ -7,6 +7,8 @@ Este archivo contiene las preguntas que se van a realizar en el laboratorio.
 Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preguntas.
 
 """
+from operator import concat
+from turtle import left, right
 import pandas as pd
 
 tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
@@ -170,7 +172,12 @@ def pregunta_10():
     3   D                  1:2:3:5:5:7
     4   E  1:1:2:3:3:4:5:5:5:6:7:8:8:9
     """
-    return
+    tabla = tbl0[['_c1','_c2']].astype(str)
+    tabla.sort_values(['_c1','_c2'],ascending = [True,True], inplace = True)
+    tabla['_c2'] = tabla.groupby(by=['_c1'])['_c2'].transform(lambda x: ':'.join(x))
+    tabla.drop_duplicates(inplace = True)
+    tabla.reset_index(inplace = True,drop = True)
+    return tabla
 
 
 def pregunta_11():
@@ -189,7 +196,13 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
-    return
+    tabla = tbl1.copy()
+    tabla.sort_values(['_c0','_c4'],ascending = [True,True], inplace = True)
+    tabla['_c4'] = tabla.groupby(by=['_c0'])['_c4'].transform(lambda x: ','.join(x))
+    tabla.drop_duplicates(inplace = True)
+    tabla.reset_index(inplace = True,drop = True)
+    return tabla
+
 
 
 def pregunta_12():
@@ -207,7 +220,14 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    return
+    tabla = tbl2.copy()
+    tabla.sort_values(['_c0','_c5a'],ascending = [True,True], inplace = True)
+    tabla['_c5'] = tabla.apply(lambda x: '{}:{}'.format(x['_c5a'],x['_c5b']),axis=1)
+    tabla['_c5'] = tabla.groupby(by=['_c0'])['_c5'].transform(lambda x: ','.join(x))
+    tabla.drop(['_c5a','_c5b'],axis=1,inplace=True)
+    tabla.drop_duplicates(inplace = True)
+    tabla.reset_index(inplace = True,drop = True)
+    return tabla
 
 
 def pregunta_13():
@@ -224,15 +244,14 @@ def pregunta_13():
     E    275
     Name: _c5b, dtype: int64
     """
-    return
+    tabla = tbl0.merge(tbl2,left_on='_c0',right_on='_c0',how='left')
+    tabla = tabla[['_c1','_c5b']]
+    tabla = tabla.groupby(by=['_c1']).sum()
+    return tabla
 
 if __name__=='__main__':
-    print(pregunta_01())
-    print(pregunta_02())
-    print(pregunta_03())
-    print(pregunta_04())
-    print(pregunta_05())
-    print(pregunta_06())
-    print(pregunta_07())
-    print(pregunta_08())
-    print(pregunta_09())
+
+    #print(pregunta_10())
+    #print(pregunta_11())
+    #print(pregunta_12())
+    print(pregunta_13())
