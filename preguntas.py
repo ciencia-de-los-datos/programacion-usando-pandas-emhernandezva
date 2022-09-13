@@ -7,8 +7,6 @@ Este archivo contiene las preguntas que se van a realizar en el laboratorio.
 Utilice los archivos `tbl0.tsv`, `tbl1.tsv` y `tbl2.tsv`, para resolver las preguntas.
 
 """
-from operator import concat
-from turtle import left, right
 import pandas as pd
 
 tbl0 = pd.read_csv("tbl0.tsv", sep="\t")
@@ -251,7 +249,7 @@ def pregunta_13():
 
 if __name__=='__main__':
 
-    #print(pregunta_10())
+    #print(pregunta_01())
     #print(pregunta_11())
     #print(pregunta_12())
-    print(pregunta_13())
+    #print(pregunta_13())
